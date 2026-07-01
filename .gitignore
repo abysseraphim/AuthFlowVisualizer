@@ -1,0 +1,9 @@
+output/
+internal/parser-side/node_modules/
+
+afv
+*.exe
+*.out
+
+.DS_Store
+Thumbs.db
