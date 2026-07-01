@@ -167,7 +167,7 @@ go run cmd/afv/main.go -p ./afv-demo-testdata
 ![CLI](assets/cli1.png)  
 ![CLI](assets/cli2.png)
 
-### Generated Report
+### GUI Generated Report
 
 ![Report](assets/gui1.png)  
 ![Report](assets/gui2.png)
@@ -183,6 +183,7 @@ go run cmd/afv/main.go -p ./afv-demo-testdata
 - Program Call Graph generation
 - Authentication Flow extraction
 - CLI report generation
+- HTML (GUI) report generation
 
 ---
 
@@ -209,7 +210,6 @@ Some advanced JavaScript features are intentionally out of scope, including:
 
 ## Future Roadmap
 
-- HTML report generation
 - Interactive graph visualization
 - Cross-file function resolution
 - Source-to-Sink analysis
