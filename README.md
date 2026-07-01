@@ -108,7 +108,7 @@ Install the Node.js dependencies:
 ```bash
 cd internal/parser-side
 npm install
-cd ../../..
+cd ../..
 ```
 
 ---
