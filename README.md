@@ -147,7 +147,7 @@ Analyze a local project:
 Analyze a remote website:
 
 ```bash
-./afv -p example.com
+./afv -u example.com
 ```
 
 Without building:
