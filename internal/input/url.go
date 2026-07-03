@@ -65,7 +65,7 @@ func fetchRendered(targetURL string) ([]byte, error) {
 		targetURL,
 	)
 
-	var out bytes.Buffer
+	var out bytes.Buffer // a buffer in memory which you can write to it or read from it.
 	var errBuf bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &errBuf
