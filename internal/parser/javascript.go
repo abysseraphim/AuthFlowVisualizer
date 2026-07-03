@@ -8,7 +8,9 @@ import (
 	"afv/internal/model"
 	"encoding/json"
 	"fmt"
+	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 type ParsedFile struct {
@@ -18,8 +20,19 @@ type ParsedFile struct {
 
 func Parser(JsSource []collector.SourceFile) ([]ParsedFile, error) {
 	JSParsedFiles := []ParsedFile{}
+
+	execPath, err := os.Executable()
+	if err != nil {
+		execPath = "."
+	}
+	parserScript := filepath.Join(filepath.Dir(execPath), "internal", "parser-side", "parser.js")
+
+	if _, err := os.Stat(parserScript); err != nil {
+		parserScript = filepath.Join("internal", "parser-side", "parser.js")
+	}
+
 	for _, fileData := range JsSource {
-		ParserOutput, err := exec.Command("node", "internal/parser-side/parser.js", fileData.Path).Output()
+		ParserOutput, err := exec.Command("node", parserScript, fileData.Path).Output()
 		if err != nil {
 			fmt.Printf("[e]failed to parse a file: %s error: %v", fileData.Path, err)
 			continue

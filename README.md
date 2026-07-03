@@ -21,7 +21,7 @@ AFV is designed for security researchers, Application Security engineers, and pe
 - Produce a human-readable CLI report
 - Analyze:
   - Local JavaScript source code (recommended)
-  - Remote website URLs (experimental)
+  - Remote website URLs (experimental, headless browser supported)
 
 ---
 
@@ -67,6 +67,7 @@ internal/
     model/
     parser/
     parser-side/
+    progress/
     report/
 
 afv-demo-testdata/
@@ -76,7 +77,7 @@ afv-demo-testdata/
 
 ## Requirements
 
-- Go 1.24+
+- Go 1.22+
 - Node.js
 - npm
 
@@ -106,22 +107,22 @@ cd AuthFlowVisualizer
 Install the Node.js dependencies:
 
 ```bash
+go mod tidy
+
 cd internal/parser-side
 npm install
-cd ../../..
+cd ../..
 ```
 
 ---
 
 ## Build
 
-Build the executable from the project root:
-
 ```bash
 go build -o afv ./cmd/afv
 ```
 
-The executable should always be built from the project root because AFV invokes the embedded Node.js Babel parser located under:
+The executable should always be run from the project root because AFV invokes the embedded Node.js Babel parser located under:
 
 ```
 internal/parser-side/
@@ -147,7 +148,7 @@ Analyze a local project:
 Analyze a remote website:
 
 ```bash
-./afv -p example.com
+./afv -u example.com
 ```
 
 Without building:
@@ -156,7 +157,7 @@ Without building:
 go run cmd/afv/main.go -p ./afv-demo-testdata
 ```
 
-> URL mode is currently experimental. Local source code analysis is recommended for the current MVP.
+> URL mode attempts to use a headless Chrome/Chromium browser if available on the system, falling back to static HTTP fetch if not found.
 
 ---
 
@@ -167,7 +168,7 @@ go run cmd/afv/main.go -p ./afv-demo-testdata
 ![CLI](assets/cli1.png)  
 ![CLI](assets/cli2.png)
 
-### Generated Report
+### GUI Generated Report
 
 ![Report](assets/gui1.png)  
 ![Report](assets/gui2.png)
@@ -181,8 +182,11 @@ go run cmd/afv/main.go -p ./afv-demo-testdata
 - Internal function call detection
 - External function call detection
 - Program Call Graph generation
-- Authentication Flow extraction
+- Authentication Flow extraction (20+ auth-related keywords)
 - CLI report generation
+- HTML (GUI) report generation
+- Progress indicators for each analysis stage
+- Headless browser support for URL mode
 
 ---
 
@@ -209,7 +213,6 @@ Some advanced JavaScript features are intentionally out of scope, including:
 
 ## Future Roadmap
 
-- HTML report generation
 - Interactive graph visualization
 - Cross-file function resolution
 - Source-to-Sink analysis
@@ -239,7 +242,7 @@ This project is licensed under the MIT License.
 
 This project was designed and implemented by the author.
 
-AI assistance was used only for parts of the HTML report implementation (`internal/report/html.go`). All project architecture, analysis pipeline, parser integration, graph construction, and reporting logic were designed and integrated by the author.
+AI assistance was used for parts of the HTML report implementation (`internal/report/html.go`) and some enhancements in v1.1. All project architecture, analysis pipeline, parser integration, graph construction, and reporting logic were designed and integrated by the author.
 
 ---
 
