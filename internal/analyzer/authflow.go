@@ -36,9 +36,27 @@ func BuildAuthFlowGraph(g model.Graph) model.Graph {
 		nodeMap[node.ID] = node // filling nodeMaps with main graph data
 	}
 
+	// auth-related keywords to detect entry points
+	authKeywords := []string{
+		"login", "logout", "signin", "signout", "signup", "register",
+		"auth", "authenticate", "authorization", "oauth", "token",
+		"session", "jwt", "cookie", "password", "credential", "verify",
+		"2fa", "mfa", "totp", "refresh", "reset", "forgot",
+	}
+
+	isAuthNode := func(id string) bool {
+		lower := strings.ToLower(id)
+		for _, kw := range authKeywords {
+			if strings.Contains(lower, kw) {
+				return true
+			}
+		}
+		return false
+	}
+
 	for _, node := range g.Nodes {
 
-		if strings.Contains(node.ID, "login") { // starting point, check all IDs to findout which one contains login keyword
+		if isAuthNode(node.ID) { // starting point: any node with an auth-related keyword
 
 			queue := []string{node.ID} // initialize with node.ID
 

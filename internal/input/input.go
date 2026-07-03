@@ -13,9 +13,9 @@ func InputHandler(target string, inputType string) ([]collector.SourceFile, erro
 		if err != nil {
 			return nil, err
 		}
-		fmt.Println("[*]JavaScript Source Files:")
+		fmt.Println("[*]JavaScript source files found:")
 		for _, file := range JsFiles {
-			println(file)
+			fmt.Println("    ", file)
 		}
 
 		jsSources, err := collector.FileCollector(JsFiles)
@@ -30,10 +30,7 @@ func InputHandler(target string, inputType string) ([]collector.SourceFile, erro
 		if err != nil {
 			return nil, err
 		}
-		fmt.Println("[*]TEMP FILES:")
-		for _, tmpfile := range TempFiles {
-			fmt.Println(tmpfile)
-		}
+		fmt.Println("[*]Temp files written:", len(TempFiles))
 
 		jsSources, err := collector.FileCollector(TempFiles)
 		if err != nil {
