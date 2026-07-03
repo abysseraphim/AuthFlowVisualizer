@@ -54,13 +54,6 @@ func fetchRendered(targetURL string) ([]byte, error) {
 
 	fmt.Println("[*]Headless browser found:", chromeBin)
 
-	tmpHTML, err := os.CreateTemp("", "afv-dom-*.html")
-	if err != nil {
-		return nil, err
-	}
-	defer os.Remove(tmpHTML.Name())
-	tmpHTML.Close()
-
 	cmd := exec.Command(
 		chromeBin,
 		"--headless",
