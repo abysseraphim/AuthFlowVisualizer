@@ -54,7 +54,6 @@ func fetchRendered(targetURL string) ([]byte, error) {
 
 	fmt.Println("[*]Headless browser found:", chromeBin)
 
-	// write to a temp file so Chrome can load it as a URL
 	tmpHTML, err := os.CreateTemp("", "afv-dom-*.html")
 	if err != nil {
 		return nil, err
