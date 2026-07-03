@@ -82,7 +82,7 @@ func fetchRendered(targetURL string) ([]byte, error) {
 		fmt.Println("[!]Failed to launch headless browser, falling back to static fetch:", err)
 		return staticFetch(targetURL)
 	}
-	go func() { done <- cmd.Wait() }()
+	go func() { done <- cmd.Wait() }() // wait for process to be done (in a goroutine to avoid freezing) and process returns an error
 
 	select {
 	case err := <-done:
@@ -90,13 +90,13 @@ func fetchRendered(targetURL string) ([]byte, error) {
 			fmt.Println("[!]Headless browser exited with error, falling back to static fetch:", err)
 			return staticFetch(targetURL)
 		}
-	case <-time.After(20 * time.Second):
+	case <-time.After(20 * time.Second): // time.After returns a channel itslef (after given timeout)
 		cmd.Process.Kill()
 		fmt.Println("[!]Headless browser timed out, falling back to static fetch")
 		return staticFetch(targetURL)
 	}
 
-	body := out.Bytes()
+	body := out.Bytes() // convert to []byte
 	if len(body) == 0 {
 		fmt.Println("[!]Headless browser returned empty body, falling back to static fetch")
 		return staticFetch(targetURL)
